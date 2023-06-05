@@ -1,0 +1,23 @@
+volumes:
+  questions-vol:
+
+services:
+
+  pgsql:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - questions-vol:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  python:
+    image: nostalgiacode/flask1:0.3
+    depends_on:
+      - pgsql
+    ports:
+      - 80:5000
